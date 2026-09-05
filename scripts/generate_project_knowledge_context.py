@@ -17,6 +17,42 @@ def active_db(canonical: Path) -> Path:
     return canonical
 
 
+def resolve_data_root(station_root: Path) -> Path:
+    """Prefer GokuAI Data/, fall back to legacy knowledge/ layout."""
+    data = station_root / 'Data'
+    if data.is_dir():
+        return data
+    legacy = station_root / 'knowledge'
+    if legacy.is_dir():
+        return legacy
+    return data
+
+
+def resolve_knowledge_db(station_root: Path, data_root: Path) -> Path:
+    candidates = [
+        station_root / 'DataIndex' / 'minecraft-knowledge' / 'knowledge.db',
+        data_root / 'Index' / 'knowledge.db',
+        station_root / 'knowledge' / 'Index' / 'knowledge.db',
+    ]
+    for canonical in candidates:
+        db = active_db(canonical)
+        if db.exists():
+            return db
+    return active_db(candidates[0])
+
+
+def resolve_mapping_db(data_root: Path, station_root: Path) -> Path:
+    candidates = [
+        data_root / 'Minecraft_Mappings_Corpus' / 'mappings.db',
+        station_root / 'knowledge' / 'Minecraft_Mappings_Corpus' / 'mappings.db',
+    ]
+    for canonical in candidates:
+        db = active_db(canonical)
+        if db.exists():
+            return db
+    return active_db(candidates[0])
+
+
 def resolve_ref(conn: sqlite3.Connection, kind: str, version: str):
     rules = {
         'primer': "category='Upstream:neoforge_primers'",
@@ -38,25 +74,21 @@ def resolve_ref(conn: sqlite3.Connection, kind: str, version: str):
     return dict(row) if row else None
 
 
-def resolve_primer_changes(root: Path, source: str, target: str) -> dict | None:
+def resolve_primer_changes(data_root: Path, source: str, target: str) -> dict | None:
     """Prefer compact primer_changes ledger over full upstream primer bodies."""
-    index = root / 'knowledge' / 'NeoForge_Primers' / target / f'primer_changes_{source}-to-{target}.md'
-    shard_dir = root / 'knowledge' / 'NeoForge_Primers' / target / f'primer_changes_{source}-to-{target}'
+    index = data_root / 'NeoForge_Primers' / target / f'primer_changes_{source}-to-{target}.md'
+    shard_dir = data_root / 'NeoForge_Primers' / target / f'primer_changes_{source}-to-{target}'
     if not index.is_file():
-        # Fall back to a ledger whose source <= declared source (covers more deltas),
-        # preferring the newest source that still starts at or before the declared source.
-        base = root / 'knowledge' / 'NeoForge_Primers' / target
+        base = data_root / 'NeoForge_Primers' / target
         candidates = []
         if base.is_dir():
             for path in base.glob(f'primer_changes_*-to-{target}.md'):
-                # primer_changes_<src>-to-<target>.md
                 name = path.stem
                 prefix = 'primer_changes_'
                 suffix = f'-to-{target}'
                 if not (name.startswith(prefix) and name.endswith(suffix)):
                     continue
                 src = name[len(prefix):-len(suffix)]
-                # numeric compare via dotted parts
                 def vkey(v: str):
                     try:
                         return [int(p) for p in v.split('.')]
@@ -72,11 +104,15 @@ def resolve_primer_changes(root: Path, source: str, target: str) -> dict | None:
         candidates.sort(key=lambda t: t[0], reverse=True)
         index = candidates[0][1]
         shard_dir = index.with_suffix('')
+    try:
+        rel = str(index.relative_to(data_root)).replace('\\', '/')
+    except ValueError:
+        rel = str(index)
     return {
         'index_path': str(index),
         'shard_dir': str(shard_dir) if shard_dir.is_dir() else '',
         'physical_path': str(index),
-        'path': str(index.relative_to(root / 'knowledge')).replace('\\', '/'),
+        'path': rel,
         'category': 'NeoForge_Primers',
         'version': target,
     }
@@ -84,11 +120,13 @@ def resolve_primer_changes(root: Path, source: str, target: str) -> dict | None:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--root', default=r'C:\rmblocal_llm')
+    ap.add_argument('--root', default=r'C:\gokuai', help='GokuAI station root (or legacy RBLocalLLM root)')
+    ap.add_argument('--data-root', default='', help='Override knowledge data root (default: <root>/Data)')
     ap.add_argument('--project', required=True)
     ns = ap.parse_args()
 
-    root = Path(ns.root)
+    station_root = Path(ns.root).resolve()
+    data_root = Path(ns.data_root).resolve() if ns.data_root else resolve_data_root(station_root)
     project = Path(ns.project).resolve()
     manifest = project / '.rb-migration' / 'project.json'
     if not manifest.exists():
@@ -99,7 +137,7 @@ def main():
     if not source or not target:
         raise SystemExit('project.json must declare source_version and target_version')
 
-    db = active_db(root / 'knowledge' / 'Index' / 'knowledge.db')
+    db = resolve_knowledge_db(station_root, data_root)
     if not db.exists():
         raise SystemExit(f'Knowledge DB missing: {db}')
     conn = sqlite3.connect(db)
@@ -112,9 +150,9 @@ def main():
     mcpconfig = resolve_ref(conn, 'mcpconfig', source)
     gradle = resolve_ref(conn, 'gradle', target)
     conn.close()
-    primer_changes = resolve_primer_changes(root, source, target)
+    primer_changes = resolve_primer_changes(data_root, source, target)
 
-    mapping_db = active_db(root / 'knowledge' / 'Minecraft_Mappings_Corpus' / 'mappings.db')
+    mapping_db = resolve_mapping_db(data_root, station_root)
     mapping_ready = mapping_db.exists()
 
     rules_dir = project / '.grok' / 'rules'
@@ -136,12 +174,19 @@ def main():
         '- Never treat an empty FTS search as proof that a version or API is absent.',
         '- Never use an adjacent version as authoritative unless comparison is explicitly requested.',
         '- Mapping translation must use minecraft-knowledge resolve_mapping with explicit namespaces.',
-        '- If the input jar/mod is older than 1.20.1, stop and report out-of-scope.', '',
-        '## Registered source roots', ''
+        '- If the input jar/mod is older than 1.20.1, stop and report out-of-scope.',
+        '- Indexer policy: **GokuAI only** (`C:\\gokuai\\Data`). Do not register external `H:\\` trees.', '',
+        '## Registered source roots', '',
+        'Policy: **GokuAI only** — index `C:\\gokuai\\Data` (`local`). External trees (e.g. `H:\\GrokBuild_MF\\Completed_Projects`) are not registered.', ''
     ]
     for s in sources:
+        root = str(s.get('source_root') or '')
+        if root and not root.lower().startswith(str(station_root).lower()):
+            continue
         available = Path(s['source_root']).exists()
         live.append(f"- `{s['source_id']}` -> `{s['source_root']}` ({s['files']} indexed files; {'available' if available else 'currently unavailable'})")
+    if not any(line.startswith('- `') for line in live[-8:]):
+        live.append(f"- `local` -> `{data_root}` (GokuAI Data)")
     live += ['', '## Exact-version entrypoints', '']
     for label, obj in [
         ('Compact primer_changes ledger', primer_changes),
@@ -153,12 +198,12 @@ def main():
         live.append(f"- {label}: `{obj['physical_path']}`" if obj else f'- {label}: **not resolved**')
     if primer_changes and primer_changes.get('shard_dir'):
         live.append(f"- Primer_changes shards: `{primer_changes['shard_dir']}`")
-    live.append(f"- 262-repair knowledge (category `262r`): `{root / 'knowledge' / '262r'}`")
+    live.append(f"- 262-repair knowledge (category `262r`): `{data_root / '262r'}`")
     live += ['', f"- Mapping corpus: `{mapping_db}` ({'ready' if mapping_ready else 'not ready'})", '']
     (rules_dir / 'knowledge-sources.md').write_text('\n'.join(live), encoding='utf-8')
 
-    solved = root / 'knowledge' / 'Solved_Problems' / 'legacy-java-converter-26.2'
-    repair262 = root / 'knowledge' / '262r'
+    solved = data_root / 'Solved_Problems' / 'legacy-java-converter-26.2'
+    repair262 = data_root / '262r'
     session = [
         '# Session Knowledge Context', '',
         f'Source: **{source}**  ',
@@ -195,27 +240,54 @@ def main():
         session += [f"- `{s['source_id']}` -> `{s['source_root']}`" for s in unavailable]
     session += ['',
         'Hosted parent: resolve through MCP / primer_changes ledger, then grep/read the returned exact source_root/physical_path.',
-        'Local mc-* workers: do not walk repositories; use the bounded evidence packet supplied by the parent.', ''
+        'Local workers: do not walk repositories; use the bounded evidence packet supplied by the parent.', ''
     ]
     (rules_dir / 'session-knowledge-context.md').write_text('\n'.join(session), encoding='utf-8')
 
     allow = [
         '# Knowledge Read Allowlist', '',
-        'Knowledge/reference reads are allowed only from the migration project, RBLocalLLM knowledge root, or registered source roots.',
+        'Knowledge/reference reads are allowed only from the migration project and GokuAI roots.',
         'Do not use this policy to block Gradle/JDK/build execution.', '',
-        f'- `{project}`', f'- `{root / "knowledge"}`'
+        'Indexer policy: **GokuAI only** (`C:\\gokuai\\Data`). No external `H:\\` / Completed_Projects trees.', '',
+        f'- `{project}`',
+        f'- `{data_root}`',
+        f'- `{station_root / "DataIndex"}`',
+        f'- `{station_root / "tooling"}`',
     ]
-    allow += [f"- `{s['source_root']}`" for s in sources]
+    seen = {str(project).lower(), str(data_root).lower(), str(station_root / 'DataIndex').lower(), str(station_root / 'tooling').lower()}
+    for s in sources:
+        root = str(s.get('source_root') or '')
+        if not root:
+            continue
+        # Enforce GokuAI-only allowlist even if a stale external source remains registered.
+        if not root.lower().startswith(str(station_root).lower()):
+            continue
+        key = root.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        allow.append(f'- `{root}`')
     (rules_dir / 'knowledge-read-allowlist.md').write_text('\n'.join(allow) + '\n', encoding='utf-8')
 
     result = {
-        'schema': 'rb-grok-knowledge-wiring-v1',
-        'project': str(project), 'source_version': source, 'target_version': target,
-        'knowledge_db': str(db), 'mapping_db': str(mapping_db), 'mapping_ready': mapping_ready,
-        'sources': sources, 'primer_changes': primer_changes, 'primer': primer,
-        'minecraft_reference': minecraft_reference, 'mcpconfig': mcpconfig, 'gradle': gradle,
+        'schema': 'goku-knowledge-wiring-v1',
+        'project': str(project),
+        'station_root': str(station_root),
+        'data_root': str(data_root),
+        'source_version': source,
+        'target_version': target,
+        'knowledge_db': str(db),
+        'mapping_db': str(mapping_db),
+        'mapping_ready': mapping_ready,
+        'sources': sources,
+        'primer_changes': primer_changes,
+        'primer': primer,
+        'minecraft_reference': minecraft_reference,
+        'mcpconfig': mcpconfig,
+        'gradle': gradle,
     }
     state = project / '.rb-migration' / 'knowledge-context.json'
+    state.parent.mkdir(parents=True, exist_ok=True)
     state.write_text(json.dumps(result, indent=2), encoding='utf-8')
     print(json.dumps(result, indent=2))
 

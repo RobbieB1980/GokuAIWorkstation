@@ -1,9 +1,11 @@
 # Knowledge Read Allowlist
 
-Knowledge/reference reads are allowed only from the migration project, GokuAI Data root, or registered source roots.
+Knowledge/reference reads are allowed only from the migration project and GokuAI roots.
 Do not use this policy to block Gradle/JDK/build execution.
+
+Indexer policy: **GokuAI only** (`C:\gokuai\Data`). No external `H:\` / Completed_Projects trees.
 
 - `C:\gokuai\projects\RB-Legacy-Java-Converter`
 - `C:\gokuai\Data`
 - `C:\gokuai\DataIndex`
-- `H:\GrokBuild_MF\Completed_Projects`
+- `C:\gokuai\tooling`

@@ -46,4 +46,5 @@ cd C:\gokuai
 - Release **v2.10.12**: Fix-in-Grok skills overlay + `Download-Portable.ps1`.
 - `Open-GokuAIWorkspace.ps1`: RB Legacy Converter repair preset + syncs migration skills into **every** workspace (including new ones) before launch.
 - Tracked overlay (survives `projects/` wipe): `tooling/legacy-converter-workspace-overlay/` + `scripts/Sync-LegacyConverterWorkspace.ps1` (on GokuAI GitHub).
+- Knowledge index policy: **GokuAI only** (`C:\gokuai\Data`). `external_sources.json` cleared; `H:\GrokBuild_MF\Completed_Projects` removed from index (0 external files).
 

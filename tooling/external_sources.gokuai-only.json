@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "zero_copy": true,
+  "policy": "gokuai-only",
+  "notes": "Copy to C:\\gokuai\\Data\\external_sources.json. Minecraft knowledge index sources only C:\\gokuai\\Data.",
+  "sources": []
+}

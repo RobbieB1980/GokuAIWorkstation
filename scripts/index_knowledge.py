@@ -83,9 +83,10 @@ def infer_exact_version(parts: tuple[str, ...]) -> str:
 def classify_source(source: SourceSpec, path: Path) -> tuple[str, str]:
     rel = path.relative_to(source.root)
     if source.category:
-        # External sources (notably H:\GrokBuild_MF\Completed_Projects) used to
-        # store rel.parts[0] (usually 'Java') as the version.  Use the first exact
-        # version directory instead, e.g. Java/26.2/... -> 26.2.
+        # External sources (if ever re-enabled) used to store rel.parts[0]
+        # (usually 'Java') as the version. Use the first exact version directory
+        # instead, e.g. Java/26.2/... -> 26.2. Default policy is GokuAI-only
+        # (C:\gokuai\Data); keep external_sources.json sources empty.
         return source.category, infer_exact_version(rel.parts)
     category, version = classify_local(source.root, path)
     if not version:
