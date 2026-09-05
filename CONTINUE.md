@@ -39,12 +39,13 @@ cd C:\gokuai
 
 ## RB Legacy Java Converter (related)
 
-- Released **v2.10.12**: https://github.com/RobbieB1980/LegacyJavaConverter/releases/tag/v2.10.12
+- Released **v2.10.13**: https://github.com/RobbieB1980/LegacyJavaConverter/releases/tag/v2.10.13
 - Destination JDK for NeoForge **26.2** builds is **Java 25**. Agents must use `projects/RB-Legacy-Java-Converter/tools/Build-WithDestinationJava.ps1` (never ambient Java 8 first).
 - Live knowledge: `Data/262r/converter/destination-java.md` (also mirrored in LegacyJavaConverter `knowledge-backup/262r`).
 - Skills/agents Phase 1â€“3 in `projects/RB-Legacy-Java-Converter/.grok/`: slim `Agents.md`, skills (`repair-failed-262-output`, etc.), agents (`mc-research`/`mc-code`/`mc-reviewer`), workflow `repair-neoforge-262`, lint `tools/Lint-MigrationSkills.ps1`.
-- Release **v2.10.12**: Fix-in-Grok skills overlay + `Download-Portable.ps1`.
+- Release **v2.10.13**: Fix-in-Grok skills overlay + `Download-Portable.ps1`.
 - `Open-GokuAIWorkspace.ps1`: RB Legacy Converter repair preset + syncs migration skills into **every** workspace (including new ones) before launch.
 - Tracked overlay (survives `projects/` wipe): `tooling/legacy-converter-workspace-overlay/` + `scripts/Sync-LegacyConverterWorkspace.ps1` (on GokuAI GitHub).
 - Knowledge index policy: **GokuAI only** (`C:\gokuai\Data`). `external_sources.json` cleared; `H:\GrokBuild_MF\Completed_Projects` removed from index (0 external files).
+
 
