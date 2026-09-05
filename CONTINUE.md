@@ -36,3 +36,9 @@ cd C:\gokuai
 ### Notes
 - Empty leftover folder `AlexanderKyngqwen3-coder-...` can be deleted.
 - Mia DeepSeek-V4 DSA import is patched optional on Windows so Qwen EXL3 loads.
+
+## RB Legacy Java Converter (related)
+
+- Released **v2.10.11**: https://github.com/RobbieB1980/LegacyJavaConverter/releases/tag/v2.10.11
+- Destination JDK for NeoForge **26.2** builds is **Java 25**. Agents must use `projects/RB-Legacy-Java-Converter/tools/Build-WithDestinationJava.ps1` (never ambient Java 8 first).
+- Live knowledge: `Data/262r/converter/destination-java.md` (also mirrored in LegacyJavaConverter `knowledge-backup/262r`).
