@@ -11,6 +11,7 @@ $startScript = Join-Path $Root 'Start-GokuAI.ps1'
 $historyPath = Join-Path $Root 'runtime\workspace-history.json'
 $converterWorkspace = Join-Path $Root 'projects\RB-Legacy-Java-Converter'
 $syncScript = Join-Path $Root 'scripts\Sync-LegacyConverterWorkspace.ps1'
+$trackedOverlay = Join-Path $Root 'tooling\legacy-converter-workspace-overlay'
 $packagingSync = Join-Path $Root 'projects\_upstream\LegacyJavaConverter\scripts\Sync-GokuaiConverterWorkspace.ps1'
 
 if (-not (Test-Path -LiteralPath $startScript)) {
@@ -25,43 +26,31 @@ function Sync-MigrationSkillsIntoWorkspace {
         [Parameter(Mandatory)][string]$WorkspacePath,
         [switch]$FullConverterTools
     )
-    $skillsOnly = -not $FullConverterTools
-    if (Test-Path -LiteralPath $packagingSync) {
-        $splat = @{ Workspace = $WorkspacePath }
-        if ($skillsOnly) { $splat.SkillsOnly = $true }
-        & $packagingSync @splat
-        return
-    }
+    # Prefer tracked GokuAI script (uses tooling/ overlay checked into git).
     if (Test-Path -LiteralPath $syncScript) {
-        $splat = @{ Workspace = $WorkspacePath }
-        if ($skillsOnly) { $splat.SkillsOnly = $true }
-        & $syncScript @splat
+        & $syncScript -Workspace $WorkspacePath -SkillsOnly:(-not $FullConverterTools) -GokuRoot $Root
         return
     }
-
-    # Inline fallback: copy .grok from converter workspace
-    $srcGrok = Join-Path $converterWorkspace '.grok'
-    if (-not (Test-Path -LiteralPath $srcGrok)) {
-        throw "Cannot sync migration skills: missing $packagingSync and $srcGrok"
+    if (Test-Path -LiteralPath $packagingSync) {
+        & $packagingSync -Workspace $WorkspacePath -SkillsOnly:(-not $FullConverterTools)
+        return
     }
-    $dstGrok = Join-Path $WorkspacePath '.grok'
-    & robocopy.exe $srcGrok $dstGrok /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
+    $srcGrok = $null
+    if (Test-Path (Join-Path $trackedOverlay '.grok')) { $srcGrok = Join-Path $trackedOverlay '.grok' }
+    elseif (Test-Path (Join-Path $converterWorkspace '.grok')) { $srcGrok = Join-Path $converterWorkspace '.grok' }
+    if (-not $srcGrok) {
+        throw "Cannot sync migration skills: missing $syncScript and overlay at $trackedOverlay"
+    }
+    & robocopy.exe $srcGrok (Join-Path $WorkspacePath '.grok') /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NP | Out-Null
     if ($LASTEXITCODE -gt 7) { throw "robocopy .grok failed: $LASTEXITCODE" }
-    $agents = Join-Path $converterWorkspace 'Agents.md'
-    if (Test-Path $agents) { Copy-Item $agents (Join-Path $WorkspacePath 'Agents.md') -Force }
-    $toolsDst = Join-Path $WorkspacePath 'tools'
-    if (-not (Test-Path $toolsDst)) { New-Item -ItemType Directory -Path $toolsDst -Force | Out-Null }
-    foreach ($name in @('Build-WithDestinationJava.ps1', 'Lint-MigrationSkills.ps1')) {
-        $src = Join-Path $converterWorkspace "tools\$name"
-        if (Test-Path $src) { Copy-Item $src (Join-Path $toolsDst $name) -Force }
-    }
 }
 
 if ($ValidateOnly) {
     Write-Host 'GokuAI Workspace Launcher validation passed.'
     Write-Host "Start script: $startScript"
     Write-Host "Converter workspace: $converterWorkspace"
-    Write-Host "Sync script: $(if (Test-Path $packagingSync) { $packagingSync } elseif (Test-Path $syncScript) { $syncScript } else { 'inline fallback' })"
+    Write-Host "Tracked overlay: $trackedOverlay (exists=$(Test-Path (Join-Path $trackedOverlay '.grok')))"
+    Write-Host "Sync script: $(if (Test-Path $syncScript) { $syncScript } elseif (Test-Path $packagingSync) { $packagingSync } else { 'inline fallback' })"
     exit 0
 }
 
