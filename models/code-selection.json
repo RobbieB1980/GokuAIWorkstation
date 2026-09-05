@@ -1,0 +1,12 @@
+﻿{
+    "backend":  "llama.cpp",
+    "default_profile":  "q6",
+    "model_path":  "C:\\gokuai\\models\\kat-reap50-Q6_K.gguf",
+    "alias":  "goku-code",
+    "ctx_size":  32768,
+    "port":  8888,
+    "proxy":  11437,
+    "reasoning":  "off",
+    "note":  "Mia/EXL3 selections archived under models\\deprecated-mia-exl3\\",
+    "updated":  "2026-09-05T14:11:14.0162250+10:00"
+}

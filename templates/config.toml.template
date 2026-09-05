@@ -1,0 +1,110 @@
+[cli]
+installer = "internal"
+auto_update = true
+
+[models]
+default = "grok-4.5"
+default_reasoning_effort = "medium"
+temperature = 0.15
+top_p = 0.90
+max_completion_tokens = 8192
+max_retries = 3
+inference_idle_timeout_secs = 900
+stream_tool_calls = true
+
+# Local workers: llama.cpp kat-reap50 (Mia/EXL3 deprecated)
+[model.goku-code]
+model = "goku-code"
+base_url = "http://127.0.0.1:11437/v1"
+name = "Goku Code - kat-reap50 llama.cpp"
+context_window = 32768
+temperature = 0.0
+max_completion_tokens = 8192
+supports_reasoning_effort = false
+reasoning_effort = "none"
+use_concise = true
+
+[model.goku-fast]
+model = "goku-fast"
+base_url = "http://127.0.0.1:11437/v1"
+name = "Goku Fast - same llama.cpp backend"
+context_window = 32768
+temperature = 0.0
+max_completion_tokens = 4096
+supports_reasoning_effort = false
+reasoning_effort = "none"
+use_concise = true
+
+[model.goku-heavy]
+model = "goku-heavy"
+base_url = "http://127.0.0.1:11437/v1"
+name = "Goku Heavy - same llama.cpp backend"
+context_window = 32768
+temperature = 0.0
+max_completion_tokens = 8192
+supports_reasoning_effort = false
+reasoning_effort = "none"
+use_concise = true
+
+[model.goku-research]
+model = "goku-research"
+base_url = "http://127.0.0.1:11437/v1"
+name = "Goku Research - same llama.cpp backend"
+context_window = 32768
+temperature = 0.0
+max_completion_tokens = 8192
+supports_reasoning_effort = false
+reasoning_effort = "none"
+use_concise = true
+
+[model.goku-reviewer]
+model = "goku-reviewer"
+base_url = "http://127.0.0.1:11437/v1"
+name = "Goku Reviewer - same llama.cpp backend"
+context_window = 32768
+temperature = 0.0
+max_completion_tokens = 8192
+supports_reasoning_effort = false
+reasoning_effort = "none"
+use_concise = true
+
+[subagents]
+enabled = true
+max_concurrent = 1
+max_depth = 1
+limit_behavior = "queue"
+
+[subagents.toggle]
+explore = false
+plan = false
+general-purpose = true
+
+[subagents.models]
+general-purpose = "goku-code"
+
+[subagents.personas.goku-compact]
+instructions = """
+Resolve exactly one issue packet. Do not ingest the parent transcript, resume workers, spawn workers, or start unrelated work.
+Read named paths directly, write .gokuai/issues/<issue-id>/result.json, and return at most 12 status lines.
+Never output chain-of-thought. Return conclusions, evidence, patches, and validation only.
+"""
+description = "Single-use, artifact-first issue resolver."
+model = "goku-code"
+reasoning_effort = "none"
+default_isolation = "none"
+
+[features]
+telemetry = false
+feedback = false
+lsp_tools = true
+
+[memory]
+enabled = false
+
+[permission]
+allow = ["Read", "Grep"]
+
+[ui]
+show_thinking_blocks = false
+follow_up_behavior = "queue"
+combine_queued_prompts = true

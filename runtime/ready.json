@@ -1,0 +1,11 @@
+﻿{
+    "updated":  "2026-09-04T22:42:40.4048697+10:00",
+    "backend_healthy":  true,
+    "models_downloaded":  true,
+    "phase2":  "embedding/reranker/VL services",
+    "default_worker":  "fast",
+    "proxy_healthy":  true,
+    "smoke_chat":  "GOKU_OK",
+    "next":  "Start-GokuAI.ps1 -ProjectPath C:\\gokuai\\projects\\demo",
+    "roles_rewired":  true
+}

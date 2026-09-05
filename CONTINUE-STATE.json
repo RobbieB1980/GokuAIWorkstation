@@ -1,0 +1,30 @@
+﻿{
+    "saved_at":  "2026-09-05T14:11:21.2629005+10:00",
+    "root":  "C:\\gokuai",
+    "backend":  "llama.cpp",
+    "parent":  "grok-4.5 medium",
+    "vs_cpp_tools":  true,
+    "nvcc":  false,
+    "torch":  "2.14.0+cu130 cuda=13.0 gpu=True",
+    "exllamav3":  "ok",
+    "role_rewire_pending":  false,
+    "role_intent":  {
+                        "default":  "kat-reap50-Q6_K.gguf ctx=32768 reasoning=off port=8888 alias=goku-code",
+                        "optional_q8":  "kat-reap50-Q8_0.gguf ctx=16384",
+                        "deprecated":  "Mia EXL3 multi-role workers"
+                    },
+    "model_sizes_gb":  {
+                           "coder":  0,
+                           "mia":  0,
+                           "draft":  0
+                       },
+    "fdm_files":  [
+                      "C:\\gokuai\\FDM-EXL3-Download-URLs.txt",
+                      "C:\\gokuai\\FDM-EXL3-Download-URLs.csv",
+                      "C:\\gokuai\\FDM-URLs-fast-coder.txt",
+                      "C:\\gokuai\\FDM-URLs-heavy-planner.txt",
+                      "C:\\gokuai\\FDM-URLs-optional-dflash-draft.txt",
+                      "C:\\gokuai\\FDM-URLs-ALL.txt"
+                  ],
+    "selection_file":  "C:\\gokuai\\Model Selection.txt"
+}

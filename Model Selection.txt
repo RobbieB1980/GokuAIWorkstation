@@ -1,0 +1,27 @@
+# GokuAI model routing (authoritative) — 2026-09-05
+
+Backend: **llama.cpp** (Mia/EXL3 multi-role stack DEPRECATED)
+
+## Active chat worker
+
+| Profile | GGUF | Context | Port | Alias |
+|---|---|---|---|---|
+| **q6 (DEFAULT)** | `C:\gokuai\models\kat-reap50-Q6_K.gguf` | 32768 | 8888 | goku-code (+ goku-fast/heavy/research/reviewer aliases) |
+| q8 (optional) | `C:\gokuai\models\kat-reap50-Q8_0.gguf` | 16384 | 8888 | same aliases |
+
+```powershell
+C:\gokuai\Start-GokuBackend.ps1 -Profile q6 -ForceRestart
+C:\gokuai\Start-GokuBackend.ps1 -Profile q8 -ForceRestart
+```
+
+Grok config: `C:\gokuai\grok-home\config.toml` → all `goku-*` use `http://127.0.0.1:11437/v1` (proxy) with `goku-code` as the real worker.
+
+## Deprecated
+
+- Mia `serve_openai.py` as default worker backend
+- EXL3 role packs (KAT EXL3 / Qwen3.6 / Qwen3.8 / coder-30B) as switchable workers
+- `Switch-GokuWorker.ps1 -Worker repair|migration|review|fast` as distinct model loads (now aliases to q6)
+
+## Parent
+
+Grok 4.5 medium remains the orchestrator (cloud). Local llama.cpp exists to cut token usage on bounded issue packets.

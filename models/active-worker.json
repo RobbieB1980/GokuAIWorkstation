@@ -1,0 +1,16 @@
+﻿{
+    "backend":  "llama.cpp",
+    "profile":  "q6",
+    "label":  "kat-reap50-Q6_K @ 32k (default goku-code)",
+    "model_path":  "C:\\gokuai\\models\\kat-reap50-Q6_K.gguf",
+    "alias":  "goku-code",
+    "host":  "127.0.0.1",
+    "port":  8888,
+    "proxy_port":  11437,
+    "ctx_size":  32768,
+    "reasoning":  "off",
+    "reasoning_budget":  0,
+    "enable_thinking":  false,
+    "deprecated_mia":  true,
+    "updated":  "2026-09-05T14:17:53.3694756+10:00"
+}

@@ -1,0 +1,607 @@
+[
+  {
+    "category": "features",
+    "description": "**Length-truncated responses** now continue automatically instead of failing the turn.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Transient inference failures** (stalls, drops, 5xx) now retry automatically instead of ending the turn.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Windows users** can now correctly open ~/.grok and worktree sessions.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Session data** is now more reliably saved after prompts and on power loss.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Hooks** can now ask the user to confirm a tool call instead of always allowing or denying.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Hooks** can now request deferral or add context shown to the model after a tool runs.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Subagent spawning** is faster when connections drop during bursts.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Compaction failures** now show the actual error instead of a generic message.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Session startup** with MCP servers is now much faster when auth is already configured.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**MCP server startup** no longer stalls behind a fixed batch size.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Truncation error messages** now show the right guidance instead of suggesting an unhelpful retry.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Truncated tool calls** are now executed instead of failing the turn when arguments are complete.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Images larger than 2000px** no longer brick sessions on many-image requests.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Wrapped hyperlinks** in the pager now remain fully clickable on Windows Terminal instead of only the first line.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Session close** now records detailed timing data for performance analysis.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Credit limit upsell** now offers a Try Again button to retry the last prompt.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Recurring scheduled tasks** now include a reminder to stop the monitor when work finishes.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Scheduled task IDs** are now full UUID strings, preventing collisions when tasks are created in the same millisecond.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**CLI downloads** are now compressed, making fresh installs and updates substantially faster.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Pasted images** now show a live pixel preview in the prompt box on iTerm2.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Worktree creation** is faster by skipping stale reflog copies.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Copying wrapped table cells** no longer inserts unwanted spaces at line breaks.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**MCP server connections** that fail transiently now retry instead of staying unavailable.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Waiting on subagents** after an interjection no longer blocks on unrelated background work.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Prompt blocks** now show friendly hook descriptions instead of internal IDs.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Truncation error message** no longer suggests asking for a shorter answer.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Context estimates** for conversations with reasoning are now more accurate.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Token usage** after rewinding or switching modes now matches the actual server-reported count instead of overestimating.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Context bar** now updates immediately when auto-compaction begins instead of waiting until it finishes.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**File system monitoring** for .NET projects no longer creates excessive watchers on Linux.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Auto recap** no longer appears while a background task or monitor wake turn is streaming.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Headless sessions** are now browsable in the resume picker without mixing into default history.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Permission prompts** for common command chains and subcommands are now more reliable.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Blocked prompts** no longer appear in conversation history or scrollback after restart.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Background monitors** no longer have a 10-hour default timeout.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Mouse input** at the right margin no longer types characters into the prompt on certain terminals.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Default permission mode** for new interactive sessions is now configurable.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Pasting text ending in a newline** no longer accidentally submits the prompt on some terminals.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Auto mode** now shows a permission card when the classifier blocks an action on interactive sessions.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Image previews** no longer leave ghost artifacts when using the Kitty protocol on Warp.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Expanded Execute tool output** no longer snaps closed during live progress.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Turn duration** now appears in session history after resume.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Turn footers** (Worked for, cancelled, failed) now appear after /resume.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Background command waits** now finish as soon as the process exits.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**/voice** now falls back to parec/arecord on older PipeWire installs.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**mkdir and touch** no longer prompt in auto mode or safe-command lists.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Subagent messages** are now allowed automatically in permission Auto mode.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Headless sessions** can now auto-allow permission prompts via a startup hint.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**grok clone** now reuses matching local checkouts as linked worktrees for faster session creation.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Subagent tasks** are more resilient to temporary rate limits and will retry instead of failing immediately.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Narrow allow rules for Bash commands** now correctly permit file writes without extra prompts.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**New sessions in the interactive TUI** now start in auto mode by default for fewer approval prompts.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**/feedback now supports attaching images** (screenshots etc.).",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**The / slash menu** is now ordered by recency and groups skills below commands for easier navigation.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Concurrent subagents** no longer trigger rate-limit errors during bursts.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**/workflow** now accepts --agent-budget N or an agent_budget JSON field to set child-agent limits.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**/workflow** now accepts --effort LEVEL or an effort JSON field to set child reasoning effort.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**MCP server connections** no longer delay session startup when many servers are configured.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**MCP servers** now receive a grok-cli User-Agent header so providers can attribute traffic.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Dashboard** now lets you start new agents in Auto mode via Shift+Tab.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Rules** containing markdown headings now render correctly in the prompt.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Workflows** now appear alongside skills in the model prompt so the agent can launch them by name.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**/new** and **/clear** now preserve the last-chosen reasoning effort instead of resetting to the model default.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Prompt dropdowns** (slash, history, file search) now have consistent left alignment with the composer.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**History** now shows every command, slash command, and memory note in the order you typed them.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Collapsed tool-call rows** no longer show a vertical accent line beside the status diamond.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Hint text** above the prompt now lines up with the text you type.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Pressing Esc** while peeking at a conversation from the dashboard now closes open modals instead of leaving the view.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**`/edit-prompt`** now opens an external editor from the full TUI, not only minimal mode.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**`/copy`** now preserves markdown formatting such as headings and code fences.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Sending a new message** while a shell command is running now moves the command to the background instead of cancelling it.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Up arrow** on an empty prompt now selects queued follow-ups first instead of opening history.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**/plugin** now works as an alias for **/plugins** in the TUI.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Plugin-provided agents** now appear in the **/agents** modal and can be toggled.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**grok mcp add** now correctly treats bare http(s):// URLs as HTTP servers instead of stdio commands.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**/minimal** and **/fullscreen** now switch instantly inside the running session without restarting or losing the current turn.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Plan mode no longer incorrectly blocks subagent spawns as file edits outside plan.md.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "MCP servers that share a URL but have different names are now kept as separate entries instead of being collapsed.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Subagents and workflow-spawned agents no longer receive the workflow tool that only top-level sessions can use.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "The configurable status line row now appears at the bottom of minimal mode as well as fullscreen.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Memory results are now presented as historical context that should be verified against live sources before use.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**grok clone** now fetches only the selected branch tip by default, with --full-history for legacy full clones.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**grok clone** can now reuse a matching local checkout as a linked worktree instead of always fetching from the network.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Interactive grok sessions** now start in ask mode by default again instead of auto.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Minimal mode** no longer truncates subagent wake-turn replies after the first token.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "MCP servers can now ask for form input or URL consent through the same popup used for questions.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Downloading a folder that contains only one file now produces a zip that still extracts as a folder.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "Opening many subagents at once no longer freezes the interface while loading their history.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Failed tool calls for tools the model invented now clearly state the tool does not exist.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "Ctrl+S now stashes the current prompt draft so you can send something else and restore it later.",
+    "breaking_change": false
+  },
+  {
+    "category": "performance",
+    "description": "**Concurrent subagents** now start much faster and no longer freeze the parent session.",
+    "breaking_change": true
+  },
+  {
+    "category": "fixes",
+    "description": "**Status line** refresh timer now uses consistent naming and no longer shows errors on deliberately hidden rows.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "** /workflow** now autocompletes saved workflow names and shows only valid runs for pause/resume/stop/save.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Workflow agent rows** now display current context usage instead of cumulative token counts.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Follow-up messages** now send immediately while waiting on a subagent or task, including after using /btw.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**MCP server connections** in non-interactive sessions no longer incorrectly require authentication for tokenless servers.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "Users hitting startup timeouts can now raise the connect budget with the `GROK_CONNECT_UI_TIMEOUT_SECS` environment variable.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Fixed startup timeouts caused by concurrent auth refreshes across multiple sessions.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "Permission prompts now show \"Always allow\" and \"Never allow\" options by default.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "Users can now delete scheduled background loops directly from the tray.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Tool call loops** are interrupted earlier to avoid wasting time on repeated identical actions.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Status line command** scripts can now run on a timer via refresh_interval in config.toml.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Subagents** no longer receive the ask-user-question tool.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "Bare email addresses are now turned into clickable mailto links in the pager.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Permission prompts** now offer a 'Never allow' choice for MCP tools and web-fetch domains that persists per project.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Workflows tab** added to the extensions modal (Ctrl+L or /plugins) listing installed workflows with name, source, and description.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**New /workflows** command opens the Workflows catalog tab; use **/workflow runs** to view live workflow runs.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Bare /workflow** (or /workflow runs) now lists active and recent workflow runs with status and progress instead of usage help.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Workflows** row added to the Ctrl+P command palette, opening the Workflows catalog tab.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Shift+arrow keys** now extend text selections in the prompt like a standard text field.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**Optional status line** can now display live session info or script output at the bottom of the pager.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Fixed session startup hangs** on large or unhealthy git repositories.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Queued messages** during goals no longer starve, and editing queued prompts works reliably.",
+    "breaking_change": false
+  },
+  {
+    "category": "features",
+    "description": "**grok clone** can now fetch a repo into a content store and mount a projected working tree.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Consent notice** on first launch now shows clickable links and handles keyboard/mouse correctly.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Ctrl+C then edit** a prompt now correctly removes the original text from the conversation.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Double-clicking** a terminal command result now shows the complete output instead of a preview.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Consent notice links** are now stricter and more reliable on all terminals.",
+    "breaking_change": false
+  },
+  {
+    "category": "fixes",
+    "description": "**Video generation** now surfaces a clear ZDR error instead of raw API responses when output storage is required.",
+    "breaking_change": false
+  },
+  {
+    "category": "breaking",
+    "description": "**Subagent spawning** no longer accepts capability_mode; tool access is now controlled only by agent type.",
+    "breaking_change": true
+  },
+  {
+    "category": "fixes",
+    "description": "**Project hooks** on Windows now correctly expand $CLAUDE_PROJECT_DIR when invoking PowerShell scripts.",
+    "breaking_change": false
+  }
+]

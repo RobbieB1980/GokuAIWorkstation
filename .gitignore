@@ -1,0 +1,77 @@
+# Secrets / local identity
+grok-home/auth.json
+grok-home/auth.json.lock
+grok-home/active_sessions.json
+grok-home/active_sessions.json.lock
+grok-home/campaigns_state.json
+grok-home/campaigns_state.json.lock
+grok-home/sessions/
+grok-home/logs/
+grok-home/memtrace/
+grok-home/worktrees.db
+grok-home/bin/
+grok-home/bundled/
+grok-home/docs/
+grok-home/marketplace-cache/
+grok-home/vendor/
+grok-home/*.lock
+grok-home/config.toml
+**/.env
+**/*.pem
+**/*secret*
+**/*credential*
+
+# Large local weights / binaries (download or copy separately)
+models/**/*.gguf
+models/**/*.safetensors
+models/**/*.bin
+models/**/*.pt
+models/**/*.pth
+models/Candidates/
+models/EXL3/
+models/Embedding/
+models/Reranker/
+models/VL/
+models/Qwen*/
+models/deprecated-mia-exl3/
+models/*.gguf
+
+# llama.cpp redistributables / build artifacts (keep scripts; ignore huge CUDA redist)
+runtime/llama.cpp/**/*.gguf
+runtime/llama.cpp/cuda12-redist/
+runtime/llama.cpp/*.dll
+runtime/llama.cpp/*.exe
+runtime/llama.cpp/LICENSE*
+!runtime/llama.cpp/README.md
+
+# Mia / ExLlama local clones (deprecated backend; do not vendor)
+runtime/mia-kit/
+runtime/exllamav3/
+runtime/.venv/
+runtime/**/__pycache__/
+
+# Local experiment backups / heavy benchmark dumps
+backups/
+benchmarks/
+
+# Logs / temp
+logs/
+**/__pycache__/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+Desktop.ini
+New Text Document.txt
+
+# Local project workspaces / data corpora (not part of workstation tooling)
+projects/
+Data/
+DataIndex/
+.gokuai/
+.rb-migration/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
