@@ -1,13 +1,14 @@
 {
   "layout": "llama.cpp-primary",
   "root": "C:\\gokuai\\models",
-  "updated": "2026-09-05T14:30:00+10:00",
+  "updated": "2026-09-05T16:00:00+10:00",
   "policy": {
     "single_gpu": true,
     "backend": "llama.cpp",
     "enable_thinking": false,
     "default_profile": "q6",
     "switcher": "C:\\gokuai\\Start-GokuBackend.ps1",
+    "oom_fallback": "--n-cpu-moe 8",
     "deprecated": [
       "Mia serve_openai default worker backend",
       "EXL3 multi-role Switch-GokuWorker profiles"
@@ -17,8 +18,16 @@
     "q6": {
       "cli": "Start-GokuBackend.ps1 -Profile q6 -ForceRestart",
       "gguf": "C:\\gokuai\\models\\kat-reap50-Q6_K.gguf",
-      "ctx_size": 32768,
-      "alias": "goku-code",
+      "ctx_size": 65536,
+      "batch_size": 2048,
+      "ubatch_size": 1024,
+      "temp": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 1.5,
+      "n_cpu_moe_fallback": 8,
+      "alias": "goku-code,goku-fast,goku-heavy,goku-research,goku-reviewer",
       "port": 8888,
       "reasoning": "off"
     },
@@ -26,7 +35,15 @@
       "cli": "Start-GokuBackend.ps1 -Profile q8 -ForceRestart",
       "gguf": "C:\\gokuai\\models\\kat-reap50-Q8_0.gguf",
       "ctx_size": 16384,
-      "alias": "goku-code",
+      "batch_size": 1024,
+      "ubatch_size": 512,
+      "temp": 0.7,
+      "top_p": 0.8,
+      "top_k": 20,
+      "min_p": 0,
+      "presence_penalty": 1.5,
+      "n_cpu_moe_fallback": 8,
+      "alias": "goku-code,goku-fast,goku-heavy,goku-research,goku-reviewer",
       "port": 8888,
       "reasoning": "off"
     }

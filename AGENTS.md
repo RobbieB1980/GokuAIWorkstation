@@ -11,16 +11,20 @@ Local GokuAI models are disposable issue workers. They do not plan the overall p
 **llama.cpp `llama-server`** serving `kat-reap50` GGUF (reasoning/thinking **off**).
 
 ```powershell
-# Default worker backend (Q6_K @ 32k)
+# Default worker backend (Q6_K @ 64k; OOM fallback --n-cpu-moe 8)
 C:\gokuai\Start-GokuBackend.ps1 -Profile q6 -ForceRestart
 
 # Optional quality A/B (Q8_0 @ 16k)
 C:\gokuai\Start-GokuBackend.ps1 -Profile q8 -ForceRestart
+
+# Force MoE CPU offload on first start
+C:\gokuai\Start-GokuBackend.ps1 -Profile q6 -NCpuMoe 8 -ForceRestart
 ```
 
 - OpenAI API: `http://127.0.0.1:8888/v1`
 - Alias proxy: `http://127.0.0.1:11437/v1` (all `goku-*` → same model)
 - Grok local model id: **`goku-code`**
+- q6 defaults: `ctx=65536`, `batch=2048`, `ubatch=1024`, samplers `temp=0.7 top_p=0.8 top_k=20 min_p=0 presence_penalty=1.5`; on OOM retries with `--n-cpu-moe 8`
 
 ### Deprecated
 
