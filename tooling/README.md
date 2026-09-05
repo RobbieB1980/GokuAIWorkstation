@@ -5,6 +5,8 @@ Files under `tooling/` are **committed to GitHub** (unlike `projects/` and `Data
 | Path | Purpose |
 |---|---|
 | `legacy-converter-workspace-overlay/` | NeoForge 26.2 Fix-in-Grok skills, agents, workflows, Agents.md, destination-Java helpers |
+| `knowledge-index-policy.md` | Indexer must use `C:\gokuai\Data` only (no `H:\` external trees) |
+| `external_sources.gokuai-only.json` | Template for `Data\external_sources.json` (`sources: []`) |
 
 Keep this tree updated when migration skills change, then push GokuAIWorkstation so a fresh clone can restore them with:
 
