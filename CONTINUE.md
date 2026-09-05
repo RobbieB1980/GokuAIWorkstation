@@ -44,4 +44,5 @@ cd C:\gokuai
 - Live knowledge: `Data/262r/converter/destination-java.md` (also mirrored in LegacyJavaConverter `knowledge-backup/262r`).
 - Skills/agents Phase 1â€“3 in `projects/RB-Legacy-Java-Converter/.grok/`: slim `Agents.md`, skills (`repair-failed-262-output`, etc.), agents (`mc-research`/`mc-code`/`mc-reviewer`), workflow `repair-neoforge-262`, lint `tools/Lint-MigrationSkills.ps1`.
 - Release **v2.10.12**: Fix-in-Grok skills overlay + `Download-Portable.ps1`.
+- `Open-GokuAIWorkspace.ps1`: RB Legacy Converter repair preset + syncs migration skills into **every** workspace (including new ones) before launch.
 
