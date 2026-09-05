@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)][string]$ProjectPath,
     [string]$Root = 'C:\gokuai',
@@ -23,17 +23,17 @@ $promptFilePath = ''
 if ($PromptFile) {
     if (-not (Test-Path -LiteralPath $PromptFile)) { throw "PromptFile not found: $PromptFile" }
     $promptFilePath = (Resolve-Path -LiteralPath $PromptFile).Path
-    # NEVER inline multiline PromptFile text into the .bat launch line — cmd truncates at the
+    # NEVER inline multiline PromptFile text into the .bat launch line  -  cmd truncates at the
     # first newline, so Fix-in-Grok only received the first sentence and lost FAILED OUTPUT FOLDER.
     # Pass a single-line pointer; the agent must open the prompt file itself.
-    $Prompt = "Read and obey EVERY line of the repair prompt file at: $promptFilePath — it names the FAILED OUTPUT FOLDER. Open that file first, then read MIGRATION_EVIDENCE.md, SOURCE_PROFILE.json, and compile-errors.log from the failed output before inventing any fix."
+    $Prompt = "Read and obey EVERY line of the repair prompt file at: $promptFilePath - it names the FAILED OUTPUT FOLDER. Open that file first, then read MIGRATION_EVIDENCE.md, SOURCE_PROFILE.json, and compile-errors.log from the failed output before inventing any fix."
 }
 elseif ($Prompt -match "[\r\n]") {
     # Multiline -Prompt from callers: persist and point, same bat-safe rule.
     $promptFilePath = Join-Path $Root 'logs\last-grok-prompt.md'
     New-Item -ItemType Directory -Force -Path (Split-Path $promptFilePath -Parent) | Out-Null
     [IO.File]::WriteAllText($promptFilePath, $Prompt)
-    $Prompt = "Read and obey EVERY line of the repair prompt file at: $promptFilePath — it names the FAILED OUTPUT FOLDER. Open that file first before inventing any fix."
+    $Prompt = "Read and obey EVERY line of the repair prompt file at: $promptFilePath - it names the FAILED OUTPUT FOLDER. Open that file first before inventing any fix."
 }
 
 # Seed the issue-only project policy when the project has no policy yet.
